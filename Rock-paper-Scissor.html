@@ -4,12 +4,151 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+
+    <style>
+      body {
+        font-family: Arial;
+        background-color: black;
+        color: white;
+      }
+      .head-title {
+        color: white;
+        font-size: 35px;
+        font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+      }
+      .button-cap {
+        height: 180px;
+      }
+      .button-emoji {
+        border: none;
+        background-color: transparent;
+        cursor: pointer;
+        margin-right: 20px;
+        width: 180px;
+      }
+      .button-caps {
+        height: 100px;
+      }
+    </style>
   </head>
   <body>
-    <button onclick="console.log(systemMoves())">Rock</button>
-    <button onclick="systemMoves()">Paper</button>
-    <button onclick="systemMoves()">Scissors</button>
+    <p class="head-title">Rock-Paper-Scissors</p>
+    <button
+      onclick="
+    runGame('Rock')"
+      class="button-emoji"
+    >
+      <img class="button-cap" src="Images/rock.png" />
+    </button>
+    <button
+      onclick="
+    runGame('Paper')"
+      class="button-emoji"
+    >
+      <img class="button-cap" src="Images/paper.png" />
+    </button>
+    <button
+      onclick="
+    runGame('Scissors')"
+      class="button-emoji buttons-load"
+    >
+      <img class="button-cap" src="Images/scissors.png" />
+    </button>
+    <p class="display-score"></p>
+    <p class="js-moves"></p>
+    <p class="js-score"></p>
+
+    <button
+      class="js-reset"
+      onclick=" score = {
+        win: 0,
+        tie: 0,
+        loss: 0,
+      };
+      localStorage.removeItem('score')
+      
+      updateScore();
+
+      resetScore();
+     // document.body.innerHTML = '';
+      
+     "
+    >
+      Reset Score
+    </button>
+
     <script>
+      let score = JSON.parse(localStorage.getItem("score")) || {
+        win: 0,
+        tie: 0,
+        loss: 0,
+      };
+
+      updateScore();
+
+      function runGame(playerMove) {
+        let result = "";
+        let computerMove = systemMoves();
+
+        if (playerMove === "Rock") {
+          if (computerMove === "Rock") {
+            result = "You Tie";
+          } else if (computerMove === "Scissors") {
+            result = "You lose";
+          } else if (computerMove === "Paper") {
+            result = "You win";
+          }
+        } else if (playerMove === "Paper") {
+          if (computerMove === "Rock") {
+            result = "You win";
+          } else if (computerMove === "Scissors") {
+            result = "You lose";
+          } else if (computerMove === "Paper") {
+            result = "Tie";
+          }
+        } else if (playerMove === "Scissors") {
+          if (computerMove === "Rock") {
+            result = "You lose";
+          } else if (computerMove === "Scissors") {
+            result = "Tie";
+          } else if (computerMove === "Paper") {
+            result = "You win";
+          }
+        }
+
+        if (result === "You win") {
+          score.win += 1;
+        } else if (result === "Tie") {
+          score.tie += 1;
+        } else if (result === "You lose") {
+          score.loss += 1;
+        }
+
+        localStorage.setItem("score", JSON.stringify(score));
+
+        updateScore();
+
+        document.querySelector(
+          ".js-moves"
+        ).innerHTML = `You picked <img class="button-caps" src="Images/${playerMove}.png">, Computer picked <img class="button-caps" src="Images/${computerMove}.png">`;
+
+        document.querySelector(".js-score").innerHTML = `${result}`;
+      }
+
+      function updateScore() {
+        let scoreElement = document.querySelector(".display-score");
+
+        scoreElement.innerHTML = `Wins: ${score.win}; Ties: ${score.tie}; Losses: ${score.loss}`;
+      }
+
+      function resetScore() {
+        const resetElement = document.querySelector(".js-reset");
+        if (resetElement.innerText === "Reset Score") {
+          document.querySelector(".js-score").innerHTML = "";
+          document.querySelector(".js-moves").innerHTML = "";
+        }
+      }
+
       function systemMoves() {
         let randomNumber = Math.random();
         let computerMove = "";
@@ -21,19 +160,7 @@
         } else if (randomNumber >= 2 / 3 && randomNumber <= 1) {
           computerMove = "Scissors";
         }
-        //return computerMove;
-
-        let result = "";
-
-        if (computerMove === "Rock") {
-          result = "You win";
-        } else if (computerMove === "Paper") {
-          result = "You lose";
-        } else if (computerMove === "Scissors") {
-          result = "Tie";
-        }
-
-        return result;
+        return computerMove;
       }
     </script>
   </body>
