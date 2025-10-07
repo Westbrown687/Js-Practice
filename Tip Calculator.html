@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      body {
+        font-family: Arial;
+        background-color: rgb(44, 34, 34);
+      }
+      .tip-calc {
+        background-color: antiquewhite;
+        color: black;
+        border-radius: 15px;
+        height: 350px;
+        width: 700px;
+        padding: 30px 20px;
+        margin-left: 300px;
+        box-shadow: inset 3px 3px 3px rgba(0, 1, 1, 0.3);
+      }
+      .h1 {
+        margin-left: 200px;
+      }
+      .calculate-css {
+        font-size: 17px;
+        width: 700px;
+        cursor: pointer;
+        background-color: rgb(7, 143, 7);
+        border: none;
+        color: white;
+      }
+      .cost-css,
+      .tip-css {
+        font-size: 17px;
+        width: 690px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="tip-calc">
+      <h1 class="h1">Tip Calculator</h1>
+      <p>Enter the bill amount and tip percentage to calculate the total.</p>
+      <p>Bill Amount:</p>
+      <input class="cost-js cost-css" type="text" placeholder="Cost Value" />
+
+      <p>Tip percentage:</p>
+      <input class="tip-js tip-css" type="text" placeholder="Tip value" />
+
+      <p>
+        <button class="calculate-css" onclick="calculate()">calculate</button>
+      </p>
+
+      <p class="display display-css"></p>
+    </div>
+
+    <script>
+      function calculate() {
+        let result = 0;
+        const costInput = document.querySelector(".cost-js");
+        const tipInput = document.querySelector(".tip-js");
+
+        const costValue = Number(costInput.value);
+        // console.log(costValue);
+        const tipValue = Number(tipInput.value);
+
+        result = tipValue + costValue;
+
+        document.querySelector(".display").innerHTML = `Total: $${result}`;
+
+        costInput.value = "";
+        tipInput.value = "";
+      }
+
+      const now = new Date();
+      console.log(now.getDate());
+
+      let birthDay = 0;
+      const birth = new Date(birthDay);
+
+      console.log(birth);
+    </script>
+  </body>
+</html>
